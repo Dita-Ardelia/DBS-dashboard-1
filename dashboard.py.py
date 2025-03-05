@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Load dataset
-DATA_PATH = "/mnt/data/data_baru.csv"
+DATA_PATH = "data_baru.csv"
 df = pd.read_csv(DATA_PATH)
 
 # Streamlit UI
@@ -14,6 +14,16 @@ st.title("Dashboard Analisis Data")
 st.subheader("Info Dataset")
 st.write(df.head())
 st.write("Jumlah baris dan kolom:", df.shape)
+
+# Pertanyaan 1: Ada berapakah jumlah kategori produk yang ada?
+if "product_category_name" in df.columns:
+    num_categories = df["product_category_name"].nunique()
+    st.write(f"Jumlah kategori produk yang ada: {num_categories}")
+
+# Pertanyaan 2: Kategori produk mana yang memiliki jumlah foto produk terbanyak?
+if "product_category_name" in df.columns and "product_photos_qty" in df.columns:
+    top_category = df.groupby("product_category_name")["product_photos_qty"].sum().idxmax()
+    st.write(f"Kategori produk dengan jumlah foto produk terbanyak: {top_category}")
 
 # Sidebar filter
 st.sidebar.header("Filter Data")
